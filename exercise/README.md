@@ -112,3 +112,64 @@ ssh-add ~/Downloads/keys/contrail-multicloud-key-4686
 ```bash
 ssh root@<public-gw-ip> -D 1080
 ```
+
+11. Enable Session Export Rate
+
+Contrail security visualization relies on session statistics which by default are disabled. The knob can be enabled by the following step:
+
+* Go to Configure> Forwarding Options> Edit
+* Set "Session Export Rate/secs" to "-1"
+
+![alt text][export_rate]
+[export_rate]: https://github.com/fashaikh7/Images/raw/master/SetSessionExportRate.png "Export Rate"
+
+12. Validation of Traffic via Visualization
+
+Visualization is perhaps the most important pillar of Contrail Security. This gives detailed view of all traffic (tagged or untagged) on the cluster and helps administrators identify compliant and non-compliant flows.
+
+* Got to Monitor> Security> Traffic Groups> * Select "Kube"
+
+![alt text][visualization]
+
+* Single click on the traffic arc gives session type/port along with policy name
+
+![alt text][traffic_arc_single_click]
+
+* Double click on the traffic arc gives local IP of the application
+
+![alt text][traffic_arc_double_click]
+
+* One can further drill down to find remote IP
+
+![alt text][remote_ip]
+
+[visualization]: https://github.com/fashaikh7/Images/raw/master/Visualization-K8-1.png "Visualization"
+[traffic_arc_single_click]: https://github.com/fashaikh7/Images/raw/master/Visualization-K8-2.png "Single Click on Traffic Arc"
+[traffic_arc_double_click]: https://github.com/fashaikh7/Images/raw/master/Visualization-K8-3.png "Double click on traffic arc"
+[remote_ip]: https://github.com/fashaikh7/Images/raw/master/Visualization-K8-4.png "Remote IP details"
+
+
+13. Filtering and capturing relevant data
+
+There is lots of good information that can be gathered by applying filters and knowing where to get application data when you need it. Everything is very intuitive but in this section we'll show some snapshots.
+
+* Security Dashboard gives you top applications on your system along with allow/deny ACL hits and top VMI's
+
+![alt text][vmis]
+
+* Time range filter allows you to gather historic data
+
+![alt text][time_range]
+
+* Filtering for your environment (site, deployment, tier etc)
+
+![alt text][filter]
+
+* Getting end point statistics
+
+![alt text][ep_stat]
+
+[vmis]: https://github.com/fashaikh7/Images/raw/master/SecurityDashboard.png "more details"
+[time_range]: https://github.com/fashaikh7/Images/raw/master/CapturingHistoricData.png "Time Range"
+[filter]: https://github.com/fashaikh7/Images/raw/master/FilteringForGranularity.png "Filter"
+[ep_stat]: https://github.com/fashaikh7/Images/raw/master/EndpointStatistics.png "Endpoint statistics"
