@@ -1,0 +1,11 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: ubuntu-compute-NY
+spec:
+  nodeSelector:
+    "kubernetes.io/hostname": compute-contrail-NY
+  containers:
+    - name: ubuntu-compute-NY
+      image: ubuntu
+  restartPolicy: Never
