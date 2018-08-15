@@ -95,11 +95,7 @@ kubectl exec -t web-pod-1 --  curl http://10.99.21.13:3000
 If you get an html page output then it means that three tier is working fine
 
 
-8. Copy public keys from the remote host to your laptop
-
-```bash
-scp -r root@<remote_ip>:~/<userid>/contrail-multi-cloud/keys ~/Downloads/
-```
+8. Checkout the workshop doc to copy keys from your remote-server to your laptop
 
 9. Check if ssh-agent is up and running
 
@@ -116,10 +112,10 @@ eval `ssh-agent -s`
 10. Add keys copied from remote server to ssh-agent. where contrail-multicloud-key-4686 is my private key, every setup will have a different key
 
 ```bash
-ssh-add ~/Downloads/keys/contrail-multicloud-key-4686
+ssh-add keys/contrail-multicloud-key-4686
 ```
 
-11. Login to the the vrouter gateway node using the public IP. Stdout of ./deploy.sh should have public_ip details for vrouter gateway node
+11. Login to the the vrouter gateway node using the public IP. Stdout of ./deploy.sh should have public_ip details for vrouter gateway node. Port 1080 is the port which you used while setting up FoxyProxy.
 
 ```bash
 ssh root@<public-gw-ip> -D 1080
