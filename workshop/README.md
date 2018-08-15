@@ -5,7 +5,7 @@
 2. Export your juniper username
 
 ```bash
-export USERNAME="abcdef"
+export USERNAME="<your_juniper_username>"
 ```
 
 3. Change directory to ${USERNAME}/contrail-multi-cloud
