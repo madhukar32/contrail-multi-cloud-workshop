@@ -133,7 +133,6 @@ Contrail security visualization relies on session statistics which by default ar
 * Set "Session Export Rate/secs" to "-1"
 
 ![alt text][export_rate]
-[export_rate]: https://github.com/fashaikh7/Images/raw/master/SetSessionExportRate.png "Export Rate"
 
 13. Validation of Traffic via Visualization
 
@@ -155,6 +154,7 @@ Visualization is perhaps the most important pillar of Contrail Security. This gi
 
 ![alt text][remote_ip]
 
+[export_rate]: https://github.com/fashaikh7/Images/raw/master/SetSessionExportRate.png "Export Rate"
 [visualization]: https://github.com/fashaikh7/Images/raw/master/Visualization-K8-1.png "Visualization"
 [traffic_arc_single_click]: https://github.com/fashaikh7/Images/raw/master/Visualization-K8-2.png "Single Click on Traffic Arc"
 [traffic_arc_double_click]: https://github.com/fashaikh7/Images/raw/master/Visualization-K8-3.png "Double click on traffic arc"
