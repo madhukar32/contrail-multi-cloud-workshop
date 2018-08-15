@@ -24,15 +24,17 @@ eval `ssh-agent -s`
 
 ```bash
 ./deployer.sh -r sanjuabraham -v $PWD:/root/multicloud -n ${USERNAME}
+```
 
+**Below is a sample output which you will see after running the above command**
+
+```bash
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Using default tag: latest
 latest: Pulling from sanjuabraham/contrail-multicloud-deployer
 Digest: sha256:b59b654986bd643767558c0fd83b8fab0fafc2b3f76c0754c90f14de0f6aafc9
 Status: Image is up to date for sanjuabraham/contrail-multicloud-deployer:latest
 
-# This will give the user a pre-built image with all the
-
-#
  contrail-multicloud-deployer docker is already running.
 
  The generated ssh key can be found at - keys/contrail-multicloud-key-24728
@@ -40,12 +42,12 @@ Status: Image is up to date for sanjuabraham/contrail-multicloud-deployer:latest
  Please ensure ssh key is added to ssh-agent. Check it using command: ssh-add -l
 
 
- Use "**ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no -A root@127.0.0.1 -p 2222**" to log into docker
+ Use "ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no -A root@127.0.0.1 -p 2222" to log into docker
 
  Default password is - multicloud
 
  run ./deploy.sh from one-click-deployer inside docker
-
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 
 6. Copy ssh command from output of above command and run it. Default password is **multicloud**
@@ -56,8 +58,7 @@ ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no -A root@127.
 
 7. Once logged in to container, change directory to multicloud/one-click-deployer
 
-```
-bash
+```bash
 cd multicloud/one-click-deployer/
 ```
 
@@ -118,11 +119,17 @@ Pay-As-You-Go  AzureCloud   985d432a-f151-4b24-b18f-456b58329fc8  Enabled  False
 az account set --subscription <subscription_id>
 ```
 
-12. Check how many quota limit you have on CPU’s.
+12. Check how many quota limit you have on CPU’s. Make sure that you have entered the right region.
+For example purposes we are using `WESTUS`
+
 __Note: If your limit is less than 100 then, then you will not be able to create multicloud topology__
 
 ```bash
-az vm list-usage --location "West US" --query "[?name.localizedValue == 'Standard F Family vCPUs'].{name: name, currentValue: currentValue, limit: limit}"
+az vm list-usage --location "WestUS" --query "[?name.localizedValue == 'Standard F Family vCPUs'].{name: name, currentValue: currentValue, limit: limit}"
+```
+**Below is a sample output which you will see after running the above command**
+
+```bash
 
 [
   {
@@ -137,7 +144,7 @@ az vm list-usage --location "West US" --query "[?name.localizedValue == 'Standar
 
 ```
 
-13. If you have enough quota limit on other any other Region, then change the topology.yaml file to point the cloud to correct region. Edit `../topology.yaml`
+13. If you have enough quota limit on other any other Region, then change the topology.yaml file to point the cloud to correct region. Edit `/root/multicloud/topology.yml`
 
 ```yaml
 - provider: azure
