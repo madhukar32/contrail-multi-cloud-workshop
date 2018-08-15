@@ -2,15 +2,21 @@
 
 ### Exercise 1: Check connectivity between two pods running on a different compute node
 
-1. Login to the contrail controller node (which is also k8s master node) using ssh command given at the end of stdout of deploy.sh
+1. Get ssh command
 
-2. Change to root user
+```bash
+cd /root/multicloud/; wget https://gist.githubusercontent.com/madhukar32/cffa63fd55ec693819dce397dd28f979/raw/4685b0c9150226482a301dd2c602c15f9d16167f/get_ssh_command.sh -O - | bash
+```
+
+2. Login to the contrail controller node (which is also k8s master node)
+
+3. Change to root user
 
 ```bash
 sudo -i
 ```
 
-3. Creating two pods, one on compute of SanFrancisco VNET and another on compute of LosAngeles VNET
+4. Creating two pods, one on compute of SanFrancisco VNET and another on compute of LosAngeles VNET
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/madhukar32/contrail-multi-cloud-workshop/master/exercise/ubuntu/pod-compute-contrail-SF.yaml
@@ -18,19 +24,19 @@ kubectl apply -f https://raw.githubusercontent.com/madhukar32/contrail-multi-clo
 kubectl apply -f https://raw.githubusercontent.com/madhukar32/contrail-multi-cloud-workshop/master/exercise/ubuntu/pod-compute-contrail-NY.yaml
 ```
 
-4. Check if pods are up and running
+5. Check if pods are up and running
 
 ```bash
 kubectl get pods -o wide
 ```
 
-5. Login to one pod and ping another pod
+6. Login to one pod and ping another pod
 
 ```bash
 kubectl exec -t ubuntu-compute-SF ping <IP of the other pod>
 ```
 
-6. Delete all the resources created
+7. Delete all the resources created
 
 ```bash
 kubectl delete pod/ubuntu-compute-SF pod/ubuntu-compute-NY
@@ -39,15 +45,21 @@ kubectl delete pod/ubuntu-compute-SF pod/ubuntu-compute-NY
 
 Note: Below exercise expects that foxyproxy is already setup. Use profile created for froxyproxy to login to contrail webui. Wiki to setup foxyproxy is [here](https://github.com/qarham/cfm-vagrant/blob/master/docs/FoxyProxy-Chrome-Setup.md)
 
-1. Login to the contrail controller node (which is also k8s master node) using ssh command given at the end of stdout of deploy.sh
+1. Get ssh command
 
-2. Change to root user
+```bash
+cd /root/multicloud/; wget https://gist.githubusercontent.com/madhukar32/cffa63fd55ec693819dce397dd28f979/raw/4685b0c9150226482a301dd2c602c15f9d16167f/get_ssh_command.sh -O - | bash
+```
+
+2. Login to the contrail controller node (which is also k8s master node)
+
+3. Change to root user
 
 ```bash
 sudo -i
 ```
 
-3. Run below commands to bring up three tier app
+4. Run below commands to bring up three tier app
 
 ```bash
 # creating pods
@@ -61,21 +73,21 @@ kubectl apply -f https://raw.githubusercontent.com/fashaikh7/Contrail-Security/m
 https://raw.githubusercontent.com/fashaikh7/Contrail-Security/master/policy-app-to-db.yml
 ```
 
-4. Verifying status of pods and networkpolicies
+5. Verifying status of pods and networkpolicies
 
 ```bash
 kubectl get pods -o wide
 kubectl get networkpolicies
 ```
 
-5. Get service IP of app svc. In this case `10.99.21.13` is app svc
+6. Get service IP of app svc. In this case `10.99.21.13` is app svc
 
 ```bash
 root@controller-contrail-TX:~# kubectl get svc | grep app
 app-svc-1        ClusterIP   10.99.21.13    <none>        3000/TCP   9h
 ```
 
-6. To verify working of the app, run below commands. Replace `10.99.21.13`, with your service IP
+7. To verify working of the app, run below commands. Replace `10.99.21.13`, with your service IP
 
 ```bash
 kubectl exec -t web-pod-1 --  curl http://10.99.21.13:3000
@@ -83,13 +95,13 @@ kubectl exec -t web-pod-1 --  curl http://10.99.21.13:3000
 If you get an html page output then it means that three tier is working fine
 
 
-7. Copy public keys from the remote host to your laptop
+8. Copy public keys from the remote host to your laptop
 
 ```bash
 scp -r root@<remote_ip>:~/<userid>/contrail-multi-cloud/keys ~/Downloads/
 ```
 
-8. Check if ssh-agent is up and running
+9. Check if ssh-agent is up and running
 
 ```bash
 ssh-add -l
@@ -101,19 +113,19 @@ Above output means that ssh-agent is not running in that case run the below comm
 eval `ssh-agent -s`
 ```
 
-9. Add keys copied from remote server to ssh-agent. where contrail-multicloud-key-4686 is my private key, every setup will have a different key
+10. Add keys copied from remote server to ssh-agent. where contrail-multicloud-key-4686 is my private key, every setup will have a different key
 
 ```bash
 ssh-add ~/Downloads/keys/contrail-multicloud-key-4686
 ```
 
-10. Login to the the vrouter gateway node using the public IP. Stdout of ./deploy.sh should have public_ip details for vrouter gateway node
+11. Login to the the vrouter gateway node using the public IP. Stdout of ./deploy.sh should have public_ip details for vrouter gateway node
 
 ```bash
 ssh root@<public-gw-ip> -D 1080
 ```
 
-11. Enable Session Export Rate
+12. Enable Session Export Rate
 
 Contrail security visualization relies on session statistics which by default are disabled. The knob can be enabled by the following step:
 
@@ -123,7 +135,7 @@ Contrail security visualization relies on session statistics which by default ar
 ![alt text][export_rate]
 [export_rate]: https://github.com/fashaikh7/Images/raw/master/SetSessionExportRate.png "Export Rate"
 
-12. Validation of Traffic via Visualization
+13. Validation of Traffic via Visualization
 
 Visualization is perhaps the most important pillar of Contrail Security. This gives detailed view of all traffic (tagged or untagged) on the cluster and helps administrators identify compliant and non-compliant flows.
 
@@ -149,7 +161,7 @@ Visualization is perhaps the most important pillar of Contrail Security. This gi
 [remote_ip]: https://github.com/fashaikh7/Images/raw/master/Visualization-K8-4.png "Remote IP details"
 
 
-13. Filtering and capturing relevant data
+14. Filtering and capturing relevant data
 
 There is lots of good information that can be gathered by applying filters and knowing where to get application data when you need it. Everything is very intuitive but in this section we'll show some snapshots.
 
