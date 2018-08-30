@@ -1,0 +1,107 @@
+- provider: azure
+  organization: Juniper
+  project: contrail-multicloud
+  regions:
+    - name: WestUS
+      resource_group: workshop
+      clouds:
+        - name: contrail-az-1
+          cidr_block: 192.168.0.0/16
+          subnets:
+            - name: subnet_contrail_az_1
+              cidr_block: 192.168.100.0/24
+              security_group: allow_all_protocols
+          security_groups:
+            - name: allow_all_protocols-contrail-az-1
+              rules:
+                - name: all_in-contrail-az-1
+                  direction: inbound
+                - name: all_out-contrail-az-1
+                  direction: outbound
+          instances:
+            - name: az-contrail-gw-1
+              roles:
+                - gateway
+              provision: true
+              username: ubuntu
+              os: ubuntu16
+              os_version: 16.04.201703020
+              instance_type: Standard_F16
+              subnets: subnet_contrail_az_1
+              interface: eth1
+              protocols_mode:
+                - ssl_server
+
+            - name: compute-contrail-az-1
+              provision: true
+              username: ubuntu
+              roles:
+                - compute_node
+              provision: true
+              os: ubuntu16
+              os_version: 16.04.201703020
+              instance_type: Standard_F16
+              subnets: subnet_contrail_az_1
+              interface: eth0
+
+- provider: onprem
+  organization: CSG
+  project: Multi-Cloud
+  instances:
+    - name: s-srv4
+      public_ip: 192.168.2.13
+      private_ip: 172.16.1.104
+      private_subnet:
+       - 172.16.1.0/24
+       - 172.16.2.0/24
+      interface: eth2
+      roles:
+        - gateway
+      provision: true
+      username: root
+      protocols_mode: # optional, only for gateway
+        - ssl_client
+    - name: s-srv2
+      public_ip: 192.168.2.11
+      private_ip: 172.16.1.102
+      private_subnet:
+        - 172.16.1.0/24
+        - 172.16.2.0/24
+      interface: eth2
+      roles:
+        - controller
+      provision: false
+      username: root
+    - name: s-srv2
+      public_ip: 192.168.2.11
+      private_ip: 172.16.1.102
+      private_subnet:
+        - 172.16.1.0/24
+        - 172.16.2.0/24
+      interface: eth2
+      roles:
+        - k8s_master
+      provision: true
+      username: root
+    - name: l-srv1
+      public_ip: 192.168.2.14
+      private_ip: 172.16.2.101
+      private_subnet:
+        - 172.16.1.0/24
+        - 172.16.2.0/24
+      interface: eth2
+      roles:
+        - compute_node
+      provision: false
+      username: root
+    - name: l-srv2
+      public_ip: 192.168.2.15
+      private_ip: 172.16.2.102
+      private_subnet:
+        - 172.16.1.0/24
+        - 172.16.2.0/24
+      interface: eth2
+      roles:
+        - compute_node
+      provision: false
+      username: root
