@@ -1,0 +1,67 @@
+contrail_configuration:
+  CLOUD_ORCHESTRATOR: kubernetes
+  CONTRAIL_VERSION: 5.0.1-0.214
+  CONTROLLER_NODES: 172.16.1.102
+  ENCAP_PRIORITY: MPLSoUDP,MPLSoGRE,VXLAN
+global_configuration:
+  CONTAINER_REGISTRY: hub.juniper.net/contrail
+  CONTAINER_REGISTRY_PASSWORD: E6Ti-V_GhU0yH#umLanQ
+  CONTAINER_REGISTRY_USERNAME: JNPR-FieldUser3
+instances:
+  172.16.1.102:
+    instance_name: 172.16.1.102
+    ip: 172.16.1.102
+    private_ip: 172.16.1.102
+    provider: bms
+    roles:
+      k8s_master: {}
+      kubemanager: {}
+  172.16.1.104:
+    contrail_configuration:
+      PHYSICAL_INTERFACE: eth2
+      VROUTER_AGENT__DEFAULT__gateway_mode: server
+      VROUTER_GATEWAY: 172.16.1.1
+    instance_name: 172.16.1.104
+    ip: 172.16.1.104
+    private_ip: 172.16.1.104
+    provider: bms
+    roles:
+      vrouter: {}
+  172.16.2.101:
+    instance_name: 172.16.2.101
+    ip: 172.16.2.101
+    private_ip: 172.16.2.101
+    provider: bms
+    roles:
+      compute: {}
+  172.16.2.102:
+    instance_name: 172.16.2.102
+    ip: 172.16.2.102
+    private_ip: 172.16.2.102
+    provider: bms
+    roles:
+      compute: {}
+  192.168.100.4:
+    instance_name: 192.168.100.4
+    ip: 192.168.100.4
+    private_ip: 192.168.100.4
+    provider: bms
+    roles:
+      k8s_node: {}
+      vrouter: {}
+  192.168.100.5:
+    contrail_configuration:
+      PHYSICAL_INTERFACE: eth1
+      VROUTER_AGENT__DEFAULT__gateway_mode: server
+      VROUTER_GATEWAY: 192.168.100.1
+    instance_name: 192.168.100.5
+    ip: 192.168.100.5
+    private_ip: 192.168.100.5
+    provider: bms
+    roles:
+      vrouter: {}
+master: 172.16.1.102
+provider_config:
+  bms:
+    ssh_pwd: c0ntrail123
+    ssh_user: root

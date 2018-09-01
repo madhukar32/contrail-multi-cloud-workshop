@@ -15,12 +15,6 @@ git clone https://github.com/Juniper/contrail-multi-cloud.git
 cd contrail-multi-cloud
 ```
 
-3. Get topology.yml file
-
-```bash
-curl -sSL -o topology.yml \ https://raw.githubusercontent.com/madhukar32/contrail-multi-cloud-workshop/master/tools/set-up-multicloud-vm/topology.yml
-```
-
 4. Enable forwarding from docker containers to outside world
 
 ```bash
