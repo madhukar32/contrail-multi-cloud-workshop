@@ -1,0 +1,81 @@
+- provider: azure
+  organization: Juniper
+  project: contrail-multicloud
+  regions:
+    - name: WestUS
+      resource_group: madhukar
+      clouds:
+        - name: West-Az-1
+          cidr_block: 192.168.0.0/16
+          subnets:
+            - name: subnet_West-Az-1
+              cidr_block: 192.168.100.0/24
+              security_group: allow_all_protocols
+          security_groups:
+            - name: allow_all_protocols-West-Az-1
+              rules:
+                - name: all_in-West-Az-1
+                  direction: inbound
+                - name: all_out-West-Az-1
+                  direction: outbound
+          instances:
+            - name: West-Az-1-gw
+              roles:
+                - gateway
+              provision: true
+              username: centos
+              os: centos7
+              instance_type: Standard_F16
+              subnets: subnet_West-Az-1
+              interface: eth1
+            - name: West-Az-1-controller
+              roles:
+                - controller
+                - k8s_master
+              provision: true
+              username: centos
+              os: centos7
+              instance_type: Standard_F16
+              subnets: subnet_West-Az-1
+              interface: eth0
+            - name: West-Az-1-compute-1
+              roles:
+                - compute_node
+              provision: true
+              username: centos
+              os: centos7
+              instance_type: Standard_F16
+              subnets: subnet_West-Az-1
+              interface: eth0
+        - name: West-Az-2
+          cidr_block: 172.18.0.0/16
+          subnets:
+            - name: subnet_West-Az-2
+              cidr_block: 172.18.100.0/24
+              security_group: allow_all_protocols
+          security_groups:
+            - name: allow_all_protocols-West-Az-2
+              rules:
+                - name: all_in-West-Az-2
+                  direction: inbound
+                - name: all_out-West-Az-2
+                  direction: outbound
+          instances:
+            - name: West-Az-2-gw
+              roles:
+                - gateway
+              provision: true
+              username: centos
+              os: centos7
+              instance_type: Standard_F16
+              subnets: subnet_West-Az-2
+              interface: eth1
+            - name: West-Az-2-compute-1
+              roles:
+                - compute_node
+              provision: true
+              username: centos
+              os: centos7
+              instance_type: Standard_F16
+              subnets: subnet_West-Az-2
+              interface: eth0

@@ -1,33 +1,20 @@
 # Instructions to bring up the topology for workshop
 
-1. Login to server (Server details are given in google doc)
+1. Download contrail-multi-cloud tar from [juniper download site](https://support.juniper.net/support/downloads/)
 
-2. Go to vagrant directory
-
-```bash
-cd cfm-vagrant/cfm-1x1-vqfx-8srv-mcloud/
-```
-
-3. Login to vagrant VM
-
-```bash
-vagrant ssh s-srv1
-sudo -i
-```
-
-4. Start ssh-agent for your session
+2. Start ssh-agent for your session
 
 ```bash
 eval `ssh-agent -s`
 ```
 
-5. Go to contrail-multi-cloud directory
+3. Go to contrail-multi-cloud directory
 
 ```bash
 cd contrail-multi-cloud/
 ```
 
-6. Run deployer.sh container script to bring up deployer container
+4. Run deployer.sh container script to bring up deployer container
 
 ```bash
 ./deployer.sh -r hub.juniper.net/contrail -t 5.0.1-0.214 -v $PWD:/root/multicloud
@@ -57,13 +44,13 @@ Status: Image is up to date for sanjuabraham/contrail-multicloud-deployer:latest
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 
-7. Copy ssh command from output of above command and run it. Default password is **multicloud**
+5. Copy ssh command from output of above command and run it. Default password is **multicloud**
 
 ```bash
 ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no -A root@127.0.0.1 -p 2222
 ```
 
-8. Every time you login to container, you need to make sure that ssh-agent is up and running
+6. Every time you login to container, you need to make sure that ssh-agent is up and running
 
 **Output** of command, if ssh-agent is up and running and key has been added to to agent
 ```bash
@@ -84,20 +71,20 @@ eval `ssh-agent -s`
 ssh-add multicloud/keys/contrail-multicloud-key-22559
 ```
 
-9. Once logged in to container, change directory to multicloud/one-click-deployer
+7. Once logged in to container, change directory to multicloud/one-click-deployer
 
 ```bash
 cd multicloud/one-click-deployer/
 ```
 
-10. Login to azure account
+8. Login to azure account
 
 ```bash
 az login
 To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code BG22JY7X9 to authenticate.
 ```
 
-11. Login to URL given above and enter the code given in the above output command. After successful login, you will see json output of your subscriptions (Something like below)
+9. Login to URL given above and enter the code given in the above output command. After successful login, you will see json output of your subscriptions (Something like below)
 
 ```bash
 27e376826e01:~/multicloud# az login
@@ -130,7 +117,7 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 ]
 ```
 
-12. Check default subscription account, using command `az account list --output table`
+10. Check default subscription account, using command `az account list --output table`
 
 ```bash
 27e376826e01:~/multicloud# az account list --output table
@@ -141,13 +128,13 @@ Pay-As-You-Go  AzureCloud   985d432a-f151-4b24-b18f-456b58329fc8  Enabled  False
 
 ```
 
-13. Set Pay-As-You-Go subscription account as your default account
+11. Set Pay-As-You-Go subscription account as your default account
 
 ```bash
 az account set --subscription <subscription_id>
 ```
 
-14. Check how many quota limit you have on CPU’s. Make sure that you have entered the right region.
+12. Check how many quota limit you have on CPU’s. Make sure that you have entered the right region.
 For example purposes we are using `WESTUS`
 
 __Note: If your limit is less than 30 then, then you will not be able to create multicloud topology__
@@ -171,7 +158,7 @@ az vm list-usage --location "WestUS" --query "[?name.localizedValue == 'Standard
 
 ```
 
-15. If you have enough quota limit on other any other Region, then change the topology.yaml file to point the cloud to correct region. Edit `/root/multicloud/topology.yml`
+13. If you have enough quota limit on other any other Region, then change the topology.yaml file to point the cloud to correct region. Edit `/root/multicloud/topology.yml`
 
 ```text
 Expectable values for region are
@@ -188,22 +175,22 @@ Expectable values for region are
 'BrazilSouth'
 ```
 
-16. Make sure that you have resource group name `workshop`
+14. Make sure that you have resource group name `workshop`
 
 ```bash
 az group exists --name workshop
 ```
 
-17. [Skip this step if workshop resource group already exists]
+15. [Skip this step if workshop resource group already exists]
 Create `workshop` resource group. Replace `WESTUS` with your region which has the required quota for this workshop
 
 ```bash
 az group create --name workshop --location WESTUS
 ```
 
-18. It always safe to run `az login` once again, to make sure that your azure authentication token is not expired. It expires every one hour
+16. It always safe to run `az login` once again, to make sure that your azure authentication token is not expired. It expires every one hour
 
-19. Copy keys to all nodes in onprem cloud
+17. Copy keys to all nodes in onprem cloud
 
 ```bash
 # password for all servers: c0ntrail123
@@ -213,7 +200,7 @@ ssh-copy-id 192.168.2.14
 ssh-copy-id 192.168.2.15
 ```
 
-20. Run deploy.sh script
+18. Run deploy.sh script
 
 ```bash
 ./deploy.sh

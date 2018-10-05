@@ -1,0 +1,138 @@
+- provider: onprem
+  organization: CSG
+  project: Multi-Cloud
+  instances:
+    - name: 5b6s40
+      public_ip: 10.87.65.161
+      private_ip: 172.16.75.161
+      private_subnet:
+       - 172.16.75.0/24
+       - 172.16.64.0/23
+      interface: ens2f0
+      roles:
+        - gateway
+      provision: true
+      username: root
+      protocols_mode: # optional, only for gateway
+        - ssl_client
+    - name: 5b6s14
+      public_ip: 10.87.65.152
+      private_ip: 172.16.65.152
+      private_subnet:
+       - 172.16.75.0/24
+       - 172.16.64.0/23
+      interface: ens2f0
+      roles:
+        - controller
+      provision: false
+      username: root
+    - name: 5b6s16
+      public_ip: 10.87.65.154
+      private_ip: 172.16.65.154
+      private_subnet:
+       - 172.16.75.0/24
+       - 172.16.64.0/23
+      interface: ens2f0
+      roles:
+        - k8s_master
+      provision: true
+      username: root
+    - name: 5b6s17
+      public_ip: 10.87.65.155
+      private_ip: 172.16.65.155
+      private_subnet:
+       - 172.16.75.0/24
+       - 172.16.64.0/23
+      interface: ens2f0
+      roles:
+        - compute_node
+      provision: true
+      username: root
+    - name: 5b6s15
+      public_ip: 10.87.65.153
+      private_ip: 172.16.65.153
+      private_subnet:
+       - 172.16.75.0/24
+       - 172.16.64.0/23
+      interface: ens2f0
+      roles:
+        - compute_node
+      provision: false
+      username: root
+- provider: azure
+  organization: Juniper
+  project: contrail-multicloud
+  regions:
+    - name: WestUS
+      resource_group: csg-demo
+      clouds:
+        - name: NewYork-AZ-1
+          cidr_block: 192.168.0.0/16
+          subnets:
+            - name: subnet_NewYork_AZ_1
+              cidr_block: 192.168.100.0/24
+              security_group: allow_all_protocols
+          security_groups:
+            - name: allow_all_protocols-NewYork-AZ-1
+              rules:
+                - name: all_in-NewYork-AZ-1
+                  direction: inbound
+                - name: all_out-NewYork-AZ-1
+                  direction: outbound
+          instances:
+            - name: NewYork-AZ-gw-1
+              roles:
+                - gateway
+              provision: true
+              username: centos
+              os: centos7
+              instance_type: Standard_F16
+              subnets: subnet_NewYork_AZ_1
+              interface: eth1
+              protocols_mode:
+                - ssl_server
+
+            - name: NewYork-AZ-compute-1
+              provision: true
+              username: ubuntu
+              roles:
+                - compute_node
+              os: ubuntu16
+              instance_type: Standard_F16s_v2
+              subnets: subnet_NewYork_AZ_1
+              interface: eth0
+    - name: WestUS
+      resource_group: csg-demo
+      clouds:
+        - name: SanFrancisco-AZ-1
+          cidr_block: 172.18.0.0/16
+          subnets:
+            - name: subnet_SanFrancisco_AZ_1
+              cidr_block: 172.18.100.0/24
+              security_group: allow_all_protocols
+          security_groups:
+            - name: allow_all_protocols-SanFrancisco-AZ-1
+              rules:
+                - name: all_in-SanFrancisco-AZ-1
+                  direction: inbound
+                - name: all_out-SanFrancisco-AZ-1
+                  direction: outbound
+          instances:
+            - name: SanFrancisco-AZ-gw-1
+              roles:
+                - gateway
+              provision: true
+              username: centos
+              os: centos7
+              instance_type: Standard_F16
+              subnets: subnet_SanFrancisco_AZ_1
+              interface: eth1
+            - name: SanFrancisco-AZ-compute-1
+              username: ubuntu
+              roles:
+                - compute_node
+              provision: true
+              os: ubuntu16
+              instance_type: Standard_F16s_v2
+              subnets: subnet_SanFrancisco_AZ_1
+              interface: eth0
